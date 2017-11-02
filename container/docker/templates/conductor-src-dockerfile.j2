@@ -40,6 +40,10 @@ RUN apt-get update -y && \
 {% elif distro in ["alpine"] %}
 # openssh is necessary until this is fixed: https://github.com/ansible/ansible/issues/24705
 RUN apk add --no-cache -U python-dev make git curl rsync libffi libffi-dev openssl openssl-dev gcc musl-dev tar openssh
+{% elif distro in ["amazonlinux"] %}
+RUN yum -y update && \
+    yum -y install vim make git gcc python27-devel rsync libffi-devel openssl-devel && \
+    yum clean all
 {% endif %}
 
 RUN (curl https://bootstrap.pypa.io/get-pip.py | python - --no-cache-dir ) && \
